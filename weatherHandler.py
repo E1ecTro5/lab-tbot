@@ -1,7 +1,7 @@
 import requests
 
 def get_weather(city_name, api_key):
-    if(city_name == None or city_name == ''):
+    if city_name is None or city_name == '':
         return "Ошибка запроса!"
 
     url = "https://api.openweathermap.org/data/2.5/weather"
@@ -19,10 +19,19 @@ def get_weather(city_name, api_key):
         response.raise_for_status()
         data = response.json()
 
-        temp = data['main']['temp']
-        desc = data['weather'][0]['description']
+        currentWeather = data["weather"][0]["main"]
+        currentDescription = data['weather'][0]['description']
+        currentTemperature = data["main"]["temp"]
+        currentFeelsLike = data["main"]["feels_like"]
+        currentWindSpeed = data["wind"]["speed"]
+        currentCloudiness = data["clouds"]["all"]
 
-        return f"В городе {city_name} сейчас {temp}°C, {desc}."
+        return (f"В городе {city_name} сейчас {currentWeather}."
+                f"{currentDescription}"
+                f"Температура: {currentTemperature}."
+                f"Ощущается как: {currentFeelsLike}."
+                f"Скорость ветра: {currentWindSpeed}."
+                f"Облачность: {currentCloudiness}")
 
     except requests.exceptions.HTTPError as err:
         print(f"Ошибка HTTP: {err}")
