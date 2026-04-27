@@ -19,19 +19,20 @@ def get_weather(city_name, api_key):
         response.raise_for_status()
         data = response.json()
 
-        currentWeather = data["weather"][0]["main"]
-        currentDescription = data['weather'][0]['description']
-        currentTemperature = data["main"]["temp"]
-        currentFeelsLike = data["main"]["feels_like"]
-        currentWindSpeed = data["wind"]["speed"]
-        currentCloudiness = data["clouds"]["all"]
+        current_weather = data["weather"][0]["main"]
+        current_description = str(data['weather'][0]['description']).capitalize()
+        current_temperature = data["main"]["temp"]
+        current_feels_like = data["main"]["feels_like"]
+        current_wind_speed = data["wind"]["speed"]
+        current_cloudiness = data["clouds"]["all"]
 
-        return (f"В городе {city_name} сейчас {currentWeather}."
-                f"{currentDescription}"
-                f"Температура: {currentTemperature}."
-                f"Ощущается как: {currentFeelsLike}."
-                f"Скорость ветра: {currentWindSpeed}."
-                f"Облачность: {currentCloudiness}")
+        city_name = city_name.capitalize()
+
+        return (f"Погода в {city_name} сейчас {current_weather}. {current_description}.\n"
+                f"Температура: {current_temperature}°C.\n"
+                f"Ощущается как: {current_feels_like}°C.\n"
+                f"Скорость ветра: {current_wind_speed}м/с.\n"
+                f"Облачность: {current_cloudiness}%.")
 
     except requests.exceptions.HTTPError as err:
         print(f"Ошибка HTTP: {err}")
